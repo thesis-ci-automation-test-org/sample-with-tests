@@ -36,7 +36,8 @@ def notifySlack(result = 'FAILURE') {
         color = "good"
     }
 
-    msg += "\nBuild: ${env.BUILD_URL}"
+    msg += " (<${env.BUILD_URL}|Open>)"
+    // TODO: Send test results
 
     slackSend color: color, message: msg
     slackSend color: color, message: getChangeLogString()
