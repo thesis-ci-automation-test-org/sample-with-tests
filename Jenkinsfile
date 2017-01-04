@@ -36,7 +36,7 @@ def notifySlack(result = 'FAILURE') {
         color = "good"
     }
 
-    msg += "Build: ${env.BUILD_URL}"
+    msg += "\nBuild: ${env.BUILD_URL}"
 
     slackSend color: color, message: msg
     slackSend color: color, message: getChangeLogString()
