@@ -6,7 +6,7 @@
 
         factory.myMethod = function myMethod(p) {
             if (p) {
-                return 1;
+                return 2;
             } else {
                 return 3;
             }
