@@ -1,7 +1,14 @@
 pipeline {
-    agent dockerfile: "Dockerfile.test"
+    //agent dockerfile: "Dockerfile.test"
+    agent label: ""
 
     stages {
+        stage("Docker") {
+            steps {
+                docker.build('thesis-ci-automation-test-org/sample-with-tests', '.')
+            }
+        }
+
         stage("Build") {
             steps {
                 sh "npm install"
