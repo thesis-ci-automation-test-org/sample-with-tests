@@ -16,6 +16,10 @@ pipeline {
     }
 
     post {
+        always {
+            junit "test-results/**/unit-test-results.xml"
+        }
+
         success {
             echo "This will run on success"
             notifySlack('SUCCESS') // TODO: Get from currentBuild
