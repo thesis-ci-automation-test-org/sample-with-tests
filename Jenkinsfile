@@ -4,7 +4,10 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                sh "npm run dependencies"
+                sh "npm install"
+                sh "bower -v"
+                sh "bower install"
+                sh "grunt --version"
             }
         }
 
