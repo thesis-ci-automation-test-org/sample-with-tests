@@ -1,13 +1,10 @@
 pipeline {
-    agent docker: "node:alpine"
+    agent docker: "digitallyseamless/nodejs-bower-grunt:latest"
 
     stages {
         stage("Build") {
             steps {
-                sh "npm install"
-                sh "bower -v"
-                sh "bower install"
-                sh "grunt --version"
+                sh "npm run dependencies"
             }
         }
 
