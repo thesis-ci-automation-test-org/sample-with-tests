@@ -1,5 +1,5 @@
 pipeline {
-    agent dockerfile: "Dockerfile.test"
+    agent docker: "node:alpine"
 
     stages {
         stage("Build") {
