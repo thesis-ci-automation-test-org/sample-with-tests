@@ -49,7 +49,9 @@ def notifySlack(result = 'FAILURE') {
     }
 
     msg += " (<${env.BUILD_URL}|Open>)"
-    // TODO: Send test results
+
+    msg += "\nTest Status:\n"
+    msg += "Passed: TODO, Failed: ${currentBuild.getAction(hudson.tasks.junit.TestResultAction.class).result.failCount}, Skipped: TODO"
 
     slackSend color: color, message: msg
     slackSend color: color, message: getChangeLogString()
