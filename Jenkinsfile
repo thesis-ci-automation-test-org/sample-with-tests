@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                sh "npm install"
+                sh "npm run dependencies"
             }
         }
 
         stage("Test") {
             steps {
-                sh "npm test -- --coverage"
+                sh "grunt unit"
             }
         }
     }

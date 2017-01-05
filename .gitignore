@@ -2,9 +2,11 @@
 
 # dependencies
 node_modules
+bower_components
 
 # testing
 coverage
+test-results
 
 # production
 build

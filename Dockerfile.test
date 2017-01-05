@@ -1,4 +1,1 @@
-FROM node:alpine
-
-WORKDIR /app
-ADD . /app/
+FROM digitallyseamless/nodejs-bower-grunt:latest

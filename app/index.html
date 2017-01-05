@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html id="ng-app" ng-app="sample-with-tests">
+<head lang="fi">
+    <meta charset="UTF-8">
+    <title>sample-with-tests</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" name="viewport">
+
+    <!-- build:base /sample-with-tests/ -->
+    <base href="/">
+    <!-- endbuild -->
+
+    <!-- build:css(.) styles/vendor.min.css -->
+    <!--bower:css-->
+    <!--endbower-->
+    <!--endbuild-->
+
+    <link rel="stylesheet" href="styles/styles.min.css" />
+</head>
+<body>
+    <!-- build:js(.) js/vendor.min.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js js/app.min.js -->
+    <script src="js/app.js"></script>
+
+    <script src="js/controllers/SampleController.js"></script>
+    <script src="js/factories/Sample.js"></script>
+    <!-- endbuild -->
+
+    <div id="app-content" ng-view="" style="width: 100%; height: 100%">Loading...</div>
+</body>
+</html>
