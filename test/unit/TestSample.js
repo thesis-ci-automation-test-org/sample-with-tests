@@ -19,7 +19,10 @@
                 expect(factory.myMethod(true)).toEqual(1);
             });
 
-            // Leave else-case untested to verify coverage
+            it('returns 3 when p is false', function () {
+                // Intentionally broken test
+                expect(factory.myMethod(false)).toEqual(2);
+            });
         });
     });
 })();
