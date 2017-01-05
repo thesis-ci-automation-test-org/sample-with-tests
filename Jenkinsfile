@@ -17,6 +17,14 @@ pipeline {
 
     post {
         always {
+            publishHTML (target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: 'test-results/html',
+                reportFiles: 'index.html',
+                reportName: "Coverage report"
+            ])
             junit "test-results/**/unit-test-results.xml"
         }
 
