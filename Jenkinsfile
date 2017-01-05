@@ -12,22 +12,29 @@ pipeline {
             steps {
                 sh "grunt unit"
             }
+
+            post {
+                always {
+                    publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'test-results/html',
+                        reportFiles: 'index.html',
+                        reportName: "Coverage report"
+                    ])
+                    junit "test-results/**/unit-test-results.xml"
+
+                }
+
+                failure {
+                    slackSend color: "danger", message: "${currentBuild.getFullDisplayName()} - Tests failed!"
+                }
+            }
         }
     }
 
     post {
-        always {
-            publishHTML (target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: false,
-                keepAll: true,
-                reportDir: 'test-results/html',
-                reportFiles: 'index.html',
-                reportName: "Coverage report"
-            ])
-            junit "test-results/**/unit-test-results.xml"
-        }
-
         success {
             echo "This will run on success"
             notifySlack('SUCCESS') // TODO: Get from currentBuild
