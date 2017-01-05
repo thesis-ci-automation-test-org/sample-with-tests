@@ -1,5 +1,5 @@
 pipeline {
-    agent dockerfile: true
+    agent dockerfile: "Dockerfile.test"
 
     stages {
         stage("Build") {
@@ -46,7 +46,7 @@ def notifySlack(result = 'FAILURE') {
 def getChangeLogString() {
     def str = ""
     def changeLogSets = currentBuild.changeSets
-    echo "${changeLogSets}"
+    
     for (int i = 0; i < changeLogSets.size(); i++) {
         def entries = changeLogSets[i].items
         for (int j = 0; j < entries.length; j++) {
