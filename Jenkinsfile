@@ -4,5 +4,9 @@
 import org.thesis_ci_automation_test.*
 
 node {
-    echo GitHelper.getChangeLogString()
+    stage('Build') {
+        checkout scm
+
+        echo GitHelper.getChangeLogString(currentBuild)
+    }
 }
