@@ -8,5 +8,6 @@ node {
         checkout scm
 
         echo GitHelper.getChangeLogString(currentBuild)
+        NotifySlack.notify(currentBuild, 'FAILURE')
     }
 }
