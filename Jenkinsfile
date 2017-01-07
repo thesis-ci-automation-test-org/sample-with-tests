@@ -7,7 +7,7 @@ node {
     stage('Build') {
         checkout scm
 
-        echo GitHelper.getChangeLogString(currentBuild)
-        NotifySlack.notify(currentBuild, 'FAILURE')
+        echo GitHelper.getChangeLogString(this)
+        NotifySlack.notify(this, 'FAILURE')
     }
 }
