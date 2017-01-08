@@ -11,8 +11,8 @@ node {
         }
     } catch (e) {
         echo "BUILD FAILED!"
-        NotifySlack.notify(this, steps, currentBuild.getResult())
+        SlackNotifier.notify(this, steps, currentBuild.getResult())
     } finally {
-        NotifySlack.notify(this, steps, currentBuild.getResult())
+        SlackNotifier.notify(this, steps, currentBuild.getResult())
     }
 }
