@@ -4,15 +4,10 @@
 import org.thesis_ci_automation_test.*
 
 node {
-    try {
-        stage('Build') {
-            checkout scm
-            echo GitHelper.getChangeLogString(this)
-        }
-    } catch (e) {
-        echo "BUILD FAILED!"
-        SlackNotifier.notify(this, steps, currentBuild.getResult())
-    } finally {
-        SlackNotifier.notify(this, steps, currentBuild.getResult())
+    stage('Build') {
+        checkout scm
+        echo GitHelper.getChangeLogString(this)
+
+        SlackNotifier.notify(this, steps, currentBuild.getResult().toString())
     }
 }
