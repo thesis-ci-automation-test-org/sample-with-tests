@@ -27,9 +27,9 @@ try {
             }
 
             stage('Production deploy') {
-                milestone
+                milestone 1
                 input 'Does dev look good?'
-                milestone
+                milestone 2
                 sh './deploy.prod.sh'
             }
         }
