@@ -7,14 +7,18 @@ currentBuild.result = 'SUCCESS'
 
 try {
     node {
-        stage('Build') {
+        stage('Prepare environment') {
             checkout scm
-            //sh 'npm run dependencies'
         }
 
-        stage('Test') {
-            echo 'TESTING'
-            //sh 'grunt unit'
+        docker.image('digitallyseamless/nodejs-bower-grunt:latest').inside {
+            stage('Build') {
+                sh 'npm run dependencies'
+            }
+
+            stage('Test') {
+                sh 'grunt unit'
+            }
         }
     }
 } catch (e) {
