@@ -24,8 +24,12 @@ try {
             }
 
             stage('Test') {
-                sh 'grunt unit'
-                junit 'test-results/**/unit-test-results.xml'
+                try {
+                    sh 'grunt unit'
+                } finally {
+                    // Always save unit test results
+                    junit 'test-results/**/unit-test-results.xml'
+                }
             }
 
             stage('Dev deploy') {
