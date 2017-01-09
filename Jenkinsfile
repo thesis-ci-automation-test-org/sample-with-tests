@@ -18,7 +18,7 @@ try {
             checkout scm
         }
 
-        docker.image('digitallyseamless/nodejs-bower-grunt:latest').inside {
+        docker.build('thesis-ci-automation-test-org/sample-with-tests:${env.BUILD_NUMBER}', '-f Dockerfile.test').inside {
             stage('Build') {
                 sh 'npm run dependencies'
             }
