@@ -6,6 +6,12 @@ import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 def err = null
 currentBuild.result = 'SUCCESS'
 
+// Only keep the 5 most recent builds.
+def projectProperties = [
+    [$class: 'BuildDiscarderProperty',strategy: [$class: 'LogRotator', numToKeepStr: '5']],
+]
+properties(projectProperties)
+
 try {
     node {
         stage('Prepare environment') {
