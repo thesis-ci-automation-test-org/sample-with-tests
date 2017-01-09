@@ -1,1 +1,7 @@
 FROM digitallyseamless/nodejs-bower-grunt:latest
+
+# Add package.json and do npm install
+# to cache npm downloads in Docker image layers
+WORKDIR /app-ws
+ADD package.json /app-ws/
+RUN npm install
