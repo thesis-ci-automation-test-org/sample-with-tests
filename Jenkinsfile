@@ -18,6 +18,7 @@ try {
 
             stage('Test') {
                 sh 'grunt unit'
+                junit "test-results/**/unit-test-results.xml"
             }
         }
     }
