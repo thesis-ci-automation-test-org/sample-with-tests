@@ -27,6 +27,7 @@ try {
     currentBuild.result = 'FAILURE'
 } finally {
     SlackNotifier.notify(this, steps, currentBuild.getResult().toString())
+    SlackNotifier.notifyChangeLog(this, steps, currentBuild.getResult().toString())
 
     // Must re-throw exception to propagate error
     if (err) {
