@@ -18,7 +18,18 @@ try {
 
             stage('Test') {
                 sh 'grunt unit'
-                junit "test-results/**/unit-test-results.xml"
+                junit 'test-results/**/unit-test-results.xml'
+            }
+
+            stage('Dev deploy') {
+                sh './deploy.dev.sh'
+            }
+
+            stage('Production deploy') {
+                milestone
+                input 'Does dev look good?'
+                milestone
+                sh './deploy.prod.sh'
             }
         }
     }
