@@ -51,7 +51,7 @@ try {
     err = e
     currentBuild.result = 'FAILURE'
 } finally {
-    SlackNotifier.notify(this, steps, currentBuild.getResult().toString())
+    SlackNotifier.notify(this, steps, currentBuild.getResult())
 
     // Must re-throw exception to propagate error
     if (err) {
