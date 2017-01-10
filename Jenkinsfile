@@ -37,7 +37,7 @@ try {
 
             stage('Production deploy') {
                 milestone 1
-                SlackNotifier.sendMessage(steps, SlackColours.GOOD.colour, 'Waiting for input') // TODO: Better message
+                SlackNotifier.sendMessage(steps, SlackColours.GOOD.colour, "Waiting for input (${Utils.getBuildLink(env)})") // TODO: Better message
                 input 'Does dev look good?'
                 milestone 2
                 sh './deploy.prod.sh'
