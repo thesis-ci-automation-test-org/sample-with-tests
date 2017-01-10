@@ -4,7 +4,6 @@ import org.thesis_ci_automation_test.*
 import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 
 def err = null
-currentBuild.result = 'SUCCESS'
 
 // Only keep the 5 most recent builds.
 def projectProperties = [
