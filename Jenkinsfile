@@ -2,6 +2,9 @@
 @Library('thesisSampleLib')
 import org.thesis_ci_automation_test.*
 
+def slack = new SlackNotifier()
+def utils = new Utils()
+
 pipeline {
   agent {
     dockerfile { filename 'Dockerfile.test' }
@@ -56,8 +59,10 @@ pipeline {
       steps {
         milestone 3
         script {
-          def slackNotifier = new SlackNotifier()
-          slackNotifier.sendMessage(SlackColours.GOOD.colour, 'Hello, world')
+          slackNotifier.sendMessage(
+            SlackColours.GOOD.colour,
+            "Waiting for input (${utils.getBuildLink(env)}})"
+          )
         }
         input 'Deploy to production?'
         lock(resource: 'prod-server', inversePrecedence: true) {
@@ -69,16 +74,10 @@ pipeline {
   }
 
   post {
-    success {
-        echo 'TODO: Slack message for success'
-    }
-
-    aborted {
-      echo 'Build aborted, skipping notifications'
-    }
-
-    failure {
-        echo 'TODO: Slack message for failure'
+    always {
+      script {
+        slack.notify(currentBuild, currentBuild.getResult(), env)
+      }
     }
   }
 }
