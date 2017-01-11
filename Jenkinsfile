@@ -31,6 +31,12 @@ pipeline {
     }
 
     stage('Development deploy') {
+      when {
+        expression {
+          return env.BRANCH_NAME != 'master' // TODO: Switch to only include "dev"
+        }
+      }
+
       steps {
         milestone 1
         lock(resource: 'dev-server', inversePrecedence: true) {
@@ -41,6 +47,12 @@ pipeline {
     }
 
     stage('Production deploy') {
+      when {
+        expression {
+          return env.BRANCH_NAME == 'master'
+        }
+      }
+
       steps {
         milestone 3
         echo 'TODO: Slack message'
