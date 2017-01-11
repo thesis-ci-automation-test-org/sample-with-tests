@@ -5,4 +5,4 @@ FROM digitallyseamless/nodejs-bower-grunt:latest
 # TODO: Actually install these in the correct location
 WORKDIR /app-ws
 ADD package.json /app-ws/
-RUN npm install
+#RUN npm install # TODO: Enable when correct location is known
