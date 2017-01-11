@@ -14,7 +14,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo "Changes:\n${GitHelper.getChangeLogString(this)}"
+        echo "Changes:\n${org.thesis_ci_automation_test.Utils.getBuildLink(env)}"
         sh 'npm run dependencies'
       }
     }
