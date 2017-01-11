@@ -3,7 +3,9 @@
 import org.thesis_ci_automation_test.*
 
 pipeline {
-  agent dockerfile { filename 'Dockerfile.test' }
+  agent {
+    dockerfile { filename 'Dockerfile.test' }
+  }
 
   options {
     buildDiscarder(logRotator(numToKeepStr:'5'))
