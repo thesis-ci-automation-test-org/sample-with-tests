@@ -2,8 +2,6 @@
 @Library('thesisSampleLib')
 import org.thesis_ci_automation_test.*
 
-def slackNotifier = new SlackNotifier()
-
 pipeline {
   agent {
     dockerfile { filename 'Dockerfile.test' }
@@ -57,7 +55,10 @@ pipeline {
 
       steps {
         milestone 3
-        slackNotifier.sendMessage(SlackColours.GOOD.colour, 'Hello, world')
+        script {
+          def slackNotifier = new SlackNotifier()
+          slackNotifier.sendMessage(SlackColours.GOOD.colour, 'Hello, world')
+        }
         input 'Deploy to production?'
         lock(resource: 'prod-server', inversePrecedence: true) {
           milestone 4
