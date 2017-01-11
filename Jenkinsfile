@@ -14,6 +14,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        echo "Changes:\n${GitHelper.getChangeLogString(this)}"
         sh 'npm run dependencies'
       }
     }
