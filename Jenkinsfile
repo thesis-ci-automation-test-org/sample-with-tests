@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 @Library('thesisSampleLib')
-import getChangelogString
+import org.thesis_ci_automation_test.*
+
+def slackNotifier = new SlackNotifier()
 
 pipeline {
   agent {
@@ -14,7 +16,6 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo getChangelogString()
         sh 'npm run dependencies'
       }
     }
@@ -56,9 +57,7 @@ pipeline {
 
       steps {
         milestone 3
-        script {
-          echo 'TODO: Slack message for deploy'
-        }
+        slackNotifier.sendMessage(SlackColours.GOOD.colour, 'Hello, world')
         input 'Deploy to production?'
         lock(resource: 'prod-server', inversePrecedence: true) {
           milestone 4
