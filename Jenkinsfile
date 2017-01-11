@@ -1,60 +1,68 @@
 #!/usr/bin/env groovy
 @Library('github.com/thesis-ci-automation-test-org/sample-shared-libs@master')
 import org.thesis_ci_automation_test.*
-import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 
-def err = null
+pipeline {
+  agent dockerfile { filename 'Dockerfile.test' }
 
-// Only keep the 5 most recent builds.
-def projectProperties = [
-    [$class: 'BuildDiscarderProperty',strategy: [$class: 'LogRotator', numToKeepStr: '5']],
-]
-properties(projectProperties)
+  options {
+    buildDiscarder(logRotator(numToKeepStr:'5'))
+  }
 
-try {
-    node {
-        stage('Prepare environment') {
-            checkout scm
-        }
-
-        docker.build("thesis-ci-automation-test-org/sample-with-tests:${env.BUILD_NUMBER}", '-f Dockerfile.test .').inside {
-            stage('Build') {
-                sh 'npm run dependencies'
-            }
-
-            stage('Test') {
-                try {
-                    sh 'grunt unit'
-                } finally {
-                    // Always save unit test results
-                    junit 'test-results/**/unit-test-results.xml'
-                }
-            }
-
-            stage('Dev deploy') {
-                sh './deploy.dev.sh'
-            }
-
-            stage('Production deploy') {
-                milestone 1
-                SlackNotifier.sendMessage(steps, SlackColours.GOOD.colour, "Waiting for input (${Utils.getBuildLink(env)})") // TODO: Better message
-                input 'Does dev look good?'
-                milestone 2
-                sh './deploy.prod.sh'
-            }
-        }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'npm run dependencies'
+      }
     }
-} catch (FlowInterruptedException e) {
-    err = e
-    currentBuild.result = 'ABORTED'
-} catch (e) {
-    err = e
-    currentBuild.result = 'FAILURE'
-} finally {
-    SlackNotifier.notify(this, steps, currentBuild.getResult())
 
-    // Must re-throw exception to propagate error
-    if (err) {
-        throw err
+    stage('Test') {
+      steps {
+        sh 'grunt unit'
+      }
+
+      post {
+        always {
+          junit 'test-results/**/unit-test-results.xml'
+        }
+      }
     }
+
+    stage('Development deploy') {
+      steps {
+        milestone 1
+        lock(resource: 'dev-server', inversePrecedence: true) {
+          milestone 2
+          sh './deploy.dev.sh'
+        }
+      }
+    }
+
+    stage('Production deploy') {
+      steps {
+        milestone 3
+        SlackNotifier.sendMessage(steps, SlackColours.GOOD.colour, 'Waiting for input')
+
+        input 'Deploy to production?'
+        lock(resource: 'prod-server', inversePrecedence: true) {
+          milestone 4
+          sh './deploy.prod.sh'
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      SlackNotifier.notify(this, steps, currentBuild.getResult())
+    }
+
+    aborted {
+      echo 'Build aborted, skipping notifications'
+    }
+
+    failure {
+      SlackNotifier.notify(this, steps, currentBuild.getResult())
+    }
+  }
 }
