@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
-@Library('github.com/thesis-ci-automation-test-org/sample-shared-libs@master')
+@Library('github.com/thesis-ci-automation-test-org/sample-shared-libs@dev')
+import getChangelogString
 
 pipeline {
   agent {
@@ -14,7 +15,7 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          echo 'test'
+          getChangelogString()
         }
         sh 'npm run dependencies'
       }
