@@ -43,10 +43,7 @@ pipeline {
     stage('Production deploy') {
       steps {
         milestone 3
-        script {
-          SlackNotifier.sendMessage(steps, SlackColours.GOOD.colour, 'Waiting for input')
-        }
-
+        echo 'TODO: Slack message'
         input 'Deploy to production?'
         lock(resource: 'prod-server', inversePrecedence: true) {
           milestone 4
@@ -58,9 +55,7 @@ pipeline {
 
   post {
     success {
-      script {
-        SlackNotifier.notify(this, steps, currentBuild.getResult())
-      }
+        echo 'TODO: Slack message'
     }
 
     aborted {
@@ -68,9 +63,7 @@ pipeline {
     }
 
     failure {
-      script {
-        SlackNotifier.notify(this, steps, currentBuild.getResult())
-      }
+        echo 'TODO: Slack message'
     }
   }
 }
