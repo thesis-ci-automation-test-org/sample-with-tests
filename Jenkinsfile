@@ -14,7 +14,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo "Changes:\n${getChangelogString()}"
+        script {
+          echo  getChangelogString()
+        }
         sh 'npm run dependencies'
       }
     }
