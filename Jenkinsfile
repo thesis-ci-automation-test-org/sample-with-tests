@@ -55,7 +55,9 @@ pipeline {
 
       steps {
         milestone 3
-        echo 'TODO: Slack message'
+        script {
+          echo 'TODO: Slack message'
+        }
         input 'Deploy to production?'
         lock(resource: 'prod-server', inversePrecedence: true) {
           milestone 4
