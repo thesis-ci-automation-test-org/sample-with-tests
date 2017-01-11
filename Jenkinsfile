@@ -1,6 +1,5 @@
 #!/usr/bin/env groovy
 @Library('github.com/thesis-ci-automation-test-org/sample-shared-libs@master')
-import org.thesis_ci_automation_test.*
 
 pipeline {
   agent {
@@ -14,7 +13,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo "Changes:\n${org.thesis_ci_automation_test.Utils.getBuildLink(env)}"
+        echo "Changes:\n${getChangelogString()}"
         sh 'npm run dependencies'
       }
     }
