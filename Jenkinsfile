@@ -14,7 +14,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'bower install' // NOTE: Dockerfile.test already installs npm deps
+        sh 'npm run dependencies'
       }
     }
 
