@@ -1,0 +1,11 @@
+/*
+!/app
+!/test
+!/.eslintignore
+!/.eslintrc
+!/.gitignore
+!/Dockerfile.test
+!/Gruntfile.js
+!/Jenkinsfile
+!/bower.json
+!/package.json
