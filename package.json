@@ -46,6 +46,9 @@
   "scripts": {
     "fresh-build": "npm run predependencies && npm run dependencies",
     "predependencies": "npm install",
-    "dependencies": "bower install"
+    "dependencies": "bower install",
+    "build": "grunt build",
+    "build:dev": "npm run build && docker build -t sample-with-tests:latest .",
+    "build:prod": "npm run build && docker build -t sample-with-tests:0.1.0"
   }
 }
