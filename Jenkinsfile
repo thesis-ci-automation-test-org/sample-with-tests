@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
-@Library('thesisSampleLib@master')
+@Library('thesisSampleLib')
 
-standardBuild {
-  projectName = 'sample-with-tests'
+testBuild {
+  echo 'ding dong'
 }
 
