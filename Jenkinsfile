@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-@Library('thesisSampleLib')
+@Library('thesisSampleLib@master')
 
 standardBuild {
   projectName = 'sample-with-tests'
