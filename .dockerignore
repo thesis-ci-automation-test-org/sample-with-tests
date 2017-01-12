@@ -1,2 +1,7 @@
 node_modules
 bower_components
+test
+test_results
+coverage
+dist
+.tmp
