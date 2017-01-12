@@ -33,6 +33,18 @@ pipeline {
       }
     }
 
+    stage('Prepare deploy') {
+      when {
+        expression {
+          return env.BRANCH_NAME != 'master' // TODO: Switch to only include "dev"
+        }
+      }
+
+      steps {
+        sh 'npm run build:dev'
+      }
+    }
+
     stage('Development deploy') {
       when {
         expression {
