@@ -7,7 +7,10 @@ def utils = new Utils()
 
 pipeline {
   agent {
-    dockerfile { filename 'Dockerfile.test' }
+    dockerfile {
+      filename 'Dockerfile.test'
+      args '-v /var/run/docker.sock:/var/run/docker.sock'
+    }
   }
 
   options {
