@@ -4,14 +4,10 @@ import org.thesis_ci_automation_test.*
 
 def slack = new SlackNotifier()
 def utils = new Utils()
+def dockerArgs = '-v /var/run/docker.sock:/var/run/docker.sock'
 
 pipeline {
-  agent {
-    dockerfile {
-      filename 'Dockerfile.test'
-      args '-v /var/run/docker.sock:/var/run/docker.sock'
-    }
-  }
+  agent none
 
   options {
     buildDiscarder(logRotator(numToKeepStr:'5'))
@@ -19,12 +15,26 @@ pipeline {
 
   stages {
     stage('Build') {
+      agent {
+        dockerfile {
+          filename 'Dockerfile.test'
+          args dockerArgs
+        }
+      }
+
       steps {
         sh 'npm run dependencies'
       }
     }
 
     stage('Test') {
+      agent {
+        dockerfile {
+          filename 'Dockerfile.test'
+          args dockerArgs
+        }
+      }
+
       steps {
         sh 'grunt unit'
       }
@@ -36,7 +46,14 @@ pipeline {
       }
     }
 
-    stage('Prepare deploy') {
+    stage('Prepare dev deploy') {
+      agent {
+        dockerfile {
+          filename 'Dockerfile.test'
+          args dockerArgs
+        }
+      }
+
       when {
         branch 'dev'
       }
@@ -47,6 +64,13 @@ pipeline {
     }
 
     stage('Development deploy') {
+      agent {
+        dockerfile {
+          filename 'Dockerfile.test'
+          args dockerArgs
+        }
+      }
+
       when {
         branch 'dev'
       }
@@ -60,7 +84,7 @@ pipeline {
       }
     }
 
-    stage('Production deploy') {
+    stage('Accept production deploy') {
       when {
         branch 'master'
       }
@@ -70,12 +94,47 @@ pipeline {
         script {
           slack.sendMessage(
             SlackColours.GOOD.colour,
-            "Waiting for input (${utils.getBuildLink(env)}})"
+            "Waiting for input (${utils.getBuildLink(env)})"
           )
         }
         input 'Deploy to production?'
+        milestone 4
+      }
+    }
+
+    stage('Prepare production deploy') {
+      agent {
+        dockerfile {
+          filename 'Dockerfile.test'
+          args dockerArgs
+        }
+      }
+
+      when {
+        branch 'master'
+      }
+
+      steps {
+        sh 'npm run build:prod'       
+      }
+    }
+
+    stage('Production deploy') {
+      agent {
+        dockerfile {
+          filename 'Dockerfile.test'
+          args dockerArgs
+        }
+      }
+
+      when {
+        branch 'master'
+      }
+
+      steps {
+        milestone 5
         lock(resource: 'prod-server', inversePrecedence: true) {
-          milestone 4
+          milestone 6
           sh './deploy.prod.sh'
         }
       }
