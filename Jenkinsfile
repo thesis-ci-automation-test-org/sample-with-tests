@@ -1,10 +1,6 @@
 pipeline {
     agent docker: "digitallyseamless/nodejs-bower-grunt:latest"
 
-    properties {
-        buildDiscarder(logRotator(numToKeepStr:'5'))
-    }
-
     stages {
         stage("Build") {
             steps {
