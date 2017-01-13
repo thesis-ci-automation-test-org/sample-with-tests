@@ -1,1 +1,18 @@
 FROM digitallyseamless/nodejs-bower-grunt:latest
+
+ENV DOCKER_VERSION=1.12.5 \
+    DOCKER_SHA256=0058867ac46a1eba283e2441b1bb5455df846144f9d9ba079e97655399d4a2c6
+
+# Install Docker client, to build Docker images
+RUN curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz \
+    && echo "${DOCKER_SHA256}  docker-${DOCKER_VERSION}.tgz" | sha256sum -c - \
+    && tar --strip-components=1 -xvzf docker-${DOCKER_VERSION}.tgz -C /usr/local/bin \
+    && chmod +rx /usr/local/bin/docker \
+    && chmod +s /usr/local/bin/docker
+
+# Add package.json and do npm install
+# to cache npm downloads in Docker image layers
+# TODO: Actually install these in the correct location
+WORKDIR /app-ws
+ADD package.json /app-ws/
+#RUN npm install # TODO: Enable when correct location is known
