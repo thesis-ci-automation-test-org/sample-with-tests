@@ -38,9 +38,7 @@ pipeline {
 
     stage('Prepare deploy') {
       when {
-        expression {
-          return env.BRANCH_NAME != 'master' // TODO: Switch to only include "dev"
-        }
+        branch 'dev'
       }
 
       steps {
@@ -50,9 +48,7 @@ pipeline {
 
     stage('Development deploy') {
       when {
-        expression {
-          return env.BRANCH_NAME != 'master' // TODO: Switch to only include "dev"
-        }
+        branch 'dev'
       }
 
       steps {
@@ -66,9 +62,7 @@ pipeline {
 
     stage('Production deploy') {
       when {
-        expression {
-          return env.BRANCH_NAME == 'master'
-        }
+        branch 'master'
       }
 
       steps {
