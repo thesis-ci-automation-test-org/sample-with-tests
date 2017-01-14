@@ -21,7 +21,7 @@
 
             it('returns 3 when p is false', function () {
                 // Intentionally broken test
-                expect(factory.myMethod(false)).toEqual(2);
+                expect(factory.myMethod(false)).toEqual(3);
             });
         });
     });
