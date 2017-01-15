@@ -12,7 +12,6 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr:'5'))
     ansiColor('xterm')
-    retry(3)
   }
 
   stages {
@@ -81,7 +80,9 @@ pipeline {
         milestone 1
         lock(resource: 'dev-server', inversePrecedence: true) {
           milestone 2
-          sh './deploy.dev.sh'
+          retry(count: 3) {
+            sh './deploy.dev.sh'
+          }
         }
       }
     }
@@ -137,7 +138,9 @@ pipeline {
         milestone 5
         lock(resource: 'prod-server', inversePrecedence: true) {
           milestone 6
-          sh './deploy.prod.sh'
+          retry(count: 3) {
+            sh './deploy.prod.sh'
+          }
         }
       }
     }
