@@ -12,6 +12,7 @@ pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr:'5'))
     ansiColor('xterm')
+    retry(3)
   }
 
   stages {
