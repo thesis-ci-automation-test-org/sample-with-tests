@@ -147,7 +147,6 @@ pipeline {
     always {
       script {
         slack.notify(currentBuild, currentBuild.getResult(), env)
-        deleteDir()
       }
     }
   }
