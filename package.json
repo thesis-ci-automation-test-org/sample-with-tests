@@ -49,7 +49,7 @@
     "dependencies": "bower install",
     "build": "grunt build",
     "build:dev": "npm run build && docker build -t my-registry:8082/sample-with-tests:latest .",
-    "build:prod": "npm run build && docker build -t my-registry:8082/sample-with-tests:0.1.0 ."
+    "build:prod": "npm run build && docker build -t my-registry:8082/sample-with-tests:0.1.0 .",
     "publish:dev": "docker push my-registry:8082/sample-with-tests:latest",
     "publish:prod": "docker push my-registry:8082/sample-with-tests:0.1.0"
   }
