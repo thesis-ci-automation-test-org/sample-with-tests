@@ -7,5 +7,5 @@ if docker service inspect $imgName ; then
   docker service update --container-label-add last_deployed=$(date -u +%Y-%m-%dT%H:%M:%S) $imgName-prod
 else
   echo 'Service does not already exist, creating'
-  docker service create --replicas 1 --constraint 'node.labels.deploy-env == prod' --publish 9001:80 --name $imgName-prod my-registry:8082/$imgName:0.1.0
+  docker service create --replicas 1 --constraint 'node.labels.deploy-env == prod' --publish 9001:80 --name $imgName-prod my-registry:8082/$imgName:0.1.1
 fi
