@@ -2,7 +2,7 @@
 
 imgName='sample-with-tests'
 echo 'Deploying to dev environment'
-if docker service inspect $imgName ; then
+if docker service inspect $imgName-prod ; then
   echo 'Service already exists, updating'
   docker service update --image my-registry:8082/$imgName:0.1.1 --container-label-add last_deployed=$(date -u +%Y-%m-%dT%H:%M:%S) $imgName-prod
 else
