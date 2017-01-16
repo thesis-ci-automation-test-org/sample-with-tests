@@ -2,7 +2,7 @@
     'use strict';
 
     function SampleController($scope) {
-        $scope.msg = 'Hello from SampleController (new version)!';
+        $scope.msg = 'Hello from SampleController (new version 2)!';
     }
 
     angular.module('sample-with-tests')
