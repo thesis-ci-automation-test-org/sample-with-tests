@@ -105,7 +105,7 @@ pipeline {
         script {
           slack.sendMessage(
             SlackColours.GOOD.colour,
-            "Waiting for input (${utils.getBuildLink(env)})"
+            "Waiting for input (${utils.getBuildLink(currentBuild)})"
           )
         }
         input 'Deploy to production?'
