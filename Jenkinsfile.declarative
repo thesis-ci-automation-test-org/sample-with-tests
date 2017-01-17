@@ -104,7 +104,7 @@ pipeline {
         milestone 3
         script {
           slack.sendMessage(
-            SlackColours.GOOD.colour,
+            SlackNotifier.GOOD,
             "Waiting for input (${utils.getBuildLink(currentBuild)})"
           )
         }
