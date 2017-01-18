@@ -6,9 +6,6 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    var serveStatic = require('serve-static');
-    var modRewrite = require('connect-modrewrite');
-
     var cfg = {
         pkg: grunt.file.readJSON('package.json'),
 
@@ -93,15 +90,7 @@ module.exports = function (grunt) {
                 options: {
                     paths: ['<%= defaults.source.dir %>/less', 'bower_components/**/less'],
                     optimization: 2,
-                    compress: true,
-                    plugins: [
-                        new (require('less-plugin-autoprefix'))({
-                            browsers: [
-                                'Chrome >= 31'
-                            ]
-                        }),
-                        new (require('less-plugin-clean-css'))({advanced: true})
-                    ]
+                    compress: true
                 },
                 files: {
                     '<%= defaults.source.dir %>/styles/styles.min.css': '<%= defaults.source.dir %>/less/main.less'
@@ -158,9 +147,7 @@ module.exports = function (grunt) {
                             '*.{ico,png,jpg}',
                             '*.html',
                             'views/{,*/}*.html',
-                            'images/{,*/}*',
-                            'styles/{,*/}*.*',
-                            'CA/*.crt'
+                            'styles/{,*/}*.*'
                         ]
                     },
                     {
@@ -174,26 +161,6 @@ module.exports = function (grunt) {
                         cwd: '<%= defaults.tmp.dir%>/concat/styles',
                         dest: '<%= defaults.dist.dir %>/styles',
                         src: ['vendor.min.css']
-                    }
-                ]
-            }
-        },
-
-        htmlmin: {
-            options: {
-                collapseWhitespace: true,
-                conservativeCollapse: true,
-                collapseBooleanAttributes: true,
-                removeCommentsFromCDATA: true,
-                removeOptionalTags: true
-            },
-            dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= defaults.dist.dir %>',
-                        src: ['*.html', 'views/*.html'],
-                        dest: '<%= defaults.dist.dir %>'
                     }
                 ]
             }
@@ -227,77 +194,8 @@ module.exports = function (grunt) {
                     }
                 ]
             }
-        },
-
-        portChecker: {
-            connect: {
-                target: 'connect.options.port',
-                affectPaths: []
-            },
-            livereload: {
-                target: 'connect.options.livereload',
-                affectPaths: []
-            }
-        },
-
-        watch: {
-            dev: {
-
-                files: [
-                    '<%= eslint.js %>',
-                    '<%= defaults.source.dir %>/views/**/*.html'
-                ],
-
-                tasks: ['newer:eslint:js'],
-                options: {
-                    livereload: {
-                        port: '<%= connect.options.livereload %>'
-                    }
-                }
-            },
-            less: {
-                files: ['<%= defaults.source.dir %>/less/**/*.less'],
-                tasks: ['less'],
-                options: {
-                    livereload: {
-                        port: '<%= connect.options.livereload %>'
-                    }
-                }
-            },
-            bower: {
-                files: ['bower.json'],
-                tasks: ['wiredep']
-            },
-            unit: {
-                files: ['<%= eslint.test %>'],
-                tasks: ['wiredep:test', 'newer:eslint:test', 'karma']
-            }
-        },
-
-        connect: {
-            options: {
-                port: 9000,
-                hostname: 'localhost',
-                livereload: 35729
-            },
-            proxies: [],
-            livereload: {
-                options: {
-                    open: true,
-                    middleware: function (connect) {
-                        return [
-                            connect().use(
-                                '/bower_components',
-                                serveStatic('./bower_components')
-                            ),
-                            require('grunt-connect-proxy/lib/utils').proxyRequest,
-                            modRewrite(['^[^\\.]*$ /index.html [L]']),
-                            serveStatic(cfg.defaults.source.dir)
-                        ];
-                    }
-                }
-            }
         }
+
     };
 
     // Project configuration
@@ -307,14 +205,6 @@ module.exports = function (grunt) {
         'newer:eslint',
         'wiredep',
         'less'
-    ]);
-
-    grunt.registerTask('serveLive', [
-        'compile',
-        'portChecker',
-        'configureProxies',
-        'connect:livereload',
-        'watch'
     ]);
 
     grunt.registerTask('build', [
@@ -331,7 +221,6 @@ module.exports = function (grunt) {
         'copy:dist',
         'filerev',
         'usemin:html',
-        'htmlmin:dist',
         'clean:tmp'
     ]);
 
