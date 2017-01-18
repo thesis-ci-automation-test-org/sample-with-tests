@@ -5,7 +5,6 @@ module.exports = function (grunt) {
     'use strict';
 
     require('load-grunt-tasks')(grunt);
-    require('time-grunt')(grunt);
 
     var serveStatic = require('serve-static');
     var modRewrite = require('connect-modrewrite');
@@ -235,10 +234,6 @@ module.exports = function (grunt) {
                 target: 'connect.options.port',
                 affectPaths: []
             },
-            prism: {
-                target: 'prism.options.port',
-                affectPaths: []
-            },
             livereload: {
                 target: 'connect.options.livereload',
                 affectPaths: []
@@ -291,7 +286,6 @@ module.exports = function (grunt) {
                     open: true,
                     middleware: function (connect) {
                         return [
-                            require('grunt-connect-prism/middleware'),
                             connect().use(
                                 '/bower_components',
                                 serveStatic('./bower_components')
@@ -302,23 +296,6 @@ module.exports = function (grunt) {
                         ];
                     }
                 }
-            },
-            dist: {
-                options: {
-                    open: true,
-                    base: '<%= defaults.dist.dir %>',
-                    keepalive: true
-                }
-            }
-        },
-
-        prism: {
-            options: {
-                mode: 'mock',
-                host: 'localhost',
-                port: 9000,
-                context: '/backend',
-                mocksPath: './httpMocks'
             }
         }
     };
@@ -330,15 +307,6 @@ module.exports = function (grunt) {
         'newer:eslint',
         'wiredep',
         'less'
-    ]);
-
-    grunt.registerTask('serve', [
-        'compile',
-        'portChecker',
-        'prism',
-        'configureProxies',
-        'connect:livereload',
-        'watch'
     ]);
 
     grunt.registerTask('serveLive', [
@@ -365,13 +333,6 @@ module.exports = function (grunt) {
         'usemin:html',
         'htmlmin:dist',
         'clean:tmp'
-    ]);
-
-    grunt.registerTask('buildConnect', [
-        'build',
-        'portChecker',
-        'prism',
-        'connect:dist'
     ]);
 
     grunt.registerTask('unit', [

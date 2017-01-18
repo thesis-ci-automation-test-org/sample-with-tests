@@ -42,8 +42,7 @@ module.exports = function (config) {
             'karma-phantomjs-launcher',
             'karma-jasmine',
             'karma-coverage',
-            'karma-junit-reporter',
-            'karma-ng-html2js-preprocessor'
+            'karma-junit-reporter'
         ],
 
         singleRun: false,
@@ -59,8 +58,7 @@ module.exports = function (config) {
         reporters: ['progress', 'coverage', 'junit'],
 
         preprocessors: {
-            'app/js/{,*/}*.js': ['coverage'],
-            'app/views/*.html': ['ng-html2js']
+            'app/js/{,*/}*.js': ['coverage']
         },
 
         coverageReporter: {
@@ -75,14 +73,6 @@ module.exports = function (config) {
             outputDir: 'test-results',
             outputFile: 'unit-test-results.xml',
             suite: ''
-        },
-
-        ngHtml2JsPreprocessor: {
-            cacheIdFromPath: function (filepath) {
-                return filepath.replace('app', '..');
-            },
-
-            moduleName: 'templates'
         }
     });
 };
