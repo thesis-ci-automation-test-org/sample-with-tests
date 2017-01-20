@@ -226,7 +226,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('unit', [
         'compile',
-        'portChecker',
         'karma:unit'
     ]);
 };
