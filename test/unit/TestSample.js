@@ -16,12 +16,12 @@
 
         describe('myMethod', function () {
             it('returns 1 when p is true', function () {
-                expect(factory.myMethod(true)).toEqual(1);
+                expect(factory.myMethod(true)).toEqual(123123123);
             });
 
             it('returns 3 when p is false', function () {
                 // Intentionally broken test
-                expect(factory.myMethod(false)).toEqual(3);
+                expect(factory.myMethod(false)).toEqual(25345345345);
             });
         });
     });
